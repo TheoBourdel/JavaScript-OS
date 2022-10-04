@@ -1,0 +1,14 @@
+$color-primary: '#fe52566';
+$color-secondary: '#ed85ef';
+$bg-primary: '#ee9936';
+$bg-secondary: '#336ffd';
+
+
+body{
+    background-color: $bg-primary;
+}
+
+.display-1 {
+    font-size: 4rem;
+    color: $color-primary;
+}
