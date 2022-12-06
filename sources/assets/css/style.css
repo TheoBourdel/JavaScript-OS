@@ -156,3 +156,7 @@
 #os-ct-menu.active {
     display: block;
 }
+
+.draggable.dragging {
+    opacity: .5;
+}

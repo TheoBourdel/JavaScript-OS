@@ -1,3 +1,4 @@
+
 //ELements
 const apps = document.querySelector("#br-os-apps")
 var menu = document.querySelector("#os-ct-menu")
@@ -8,45 +9,115 @@ const maximise = document.querySelector("#maximise")
 const shorter = document.querySelector("#shorter")
 const cross = document.querySelector("#cross")
 const taskbar = document.querySelector ("#taskbar")
+
 /* Sound effects */
 const click = new Audio("assets/music/click.wav")
 const con = new Audio("assets/music/alert.wav")
 const okay = new Audio("assets/music/positive.wav")
 const no = new Audio("assets/music/negative.wav")
 
-//Operations
+
 /* Reseting window */
 close(os_window)
-/* Creating apps */
-create_app("File manager", 'assets/images/apps/file-manager.png', "file-manager")
-create_app("Recycle bin", "assets/images/apps/recycle-bin.png", "recycle-bin")
-create_app ("Settings", "assets/images/apps/settings.png", "settings")
-create_app("System Info", "assets/images/apps/system-information.png", "system-info")
 
+const allApps = [
+    {
+        id:"file-manager",
+        name:"File manager",
+        directoryLink:"",
+        image:"assets/images/apps/file-manager.png",
+        htmlCompnent: ''
+    },
+    {
+        id:"recycle-bin",
+        name:"Recycle bin",
+        directoryLink:"",
+        image:"assets/images/apps/recycle-bin.png",
+        htmlCompnent: ''
+    },
+    {
+        id:"settings",
+        name:"Settings",
+        directoryLink:"",
+        image:"assets/images/apps/settings.png",
+        htmlCompnent: ''
+    },
+    {
+        id:"system-info",
+        name:"System Info",
+        directoryLink:"",
+        image:"assets/images/apps/system-information.png",
+        htmlCompnent: ''
+    },
+    {
+        id:"tic_tac_toe",
+        name:"Tic Tac Toc",
+        directoryLink:"apps/Tic/",
+        image:"assets/images/apps/tic.png",
+    },
+    {
+        id:"clock",
+        name:"Clock",
+        directoryLink:"apps/Horloge/",
+        image:"assets/images/apps/clock.png",
+    },
+    {
+        id:"calculator",
+        name:"Calculatrice",
+        directoryLink:"apps/Calculatrice/",
+        image:"assets/images/apps/calculator.png",
+    },
+]
+
+/* Creating apps */
+allApps.map((app) => {
+    create_app(app)
+})
 
 //Functions
-
-function create_app (name, image, id) {
-    let app = document.createElement("div")
+function create_app (CurrentApp) {
+    const app = document.createElement("div")
     app.classList.add("app")
-    app.id = id
-    app.setAttribute("onclick", "window_open('" + id + "')")
+    app.id = CurrentApp.id
     app.oncontextmenu = e => {
         click.play()
-        open_menu(e, id)
+        open_menu(e, CurrentApp.id)
     }
 
     let img = document.createElement("img")
-    img.src = image
-    img. setAttribute("alt", name)
+    img.src = CurrentApp.image
+    img. setAttribute("alt", CurrentApp.name)
+
     let p = document.createElement("p")
-    p.innerText = name
+    p.innerText = CurrentApp.name
+   
+    app.setAttribute("onclick", "window_open('" + CurrentApp.id + "')")
+    app.setAttribute("class", "app draggable")
+    app.setAttribute("draggable", "true")
+
+
     app.appendChild (img)
-    /*console.log(apps);
-    console.log(taskbar);*/
     app.appendChild (p)
     apps.appendChild (app)
 }
+//______________________________________________________________
+
+//draggable
+
+// const draggables = document.querySelectorAll('.draggable')
+
+// draggables.forEach((draggable) => {
+//     draggable.addEventListener('dragstart', ()=>{
+//         draggable.classList.add('dragging')
+//     })
+
+//     draggable.addEventListener('dragend', ()=>{
+//         draggable.classList.remove('dragging')
+//     })
+// })
+
+
+//______________________________________________________________
 
 function open (tag) {
     tag.style.display = "inline-block"
@@ -57,11 +128,21 @@ function close (tag) {
 }
 
 function window_open (id) {
+
+const allDivs = app_main.children
+Object.values(allDivs).map((currentDiv) => {
+    if(currentDiv.getAttribute('id')=== id && id !=='calculator') {
+        currentDiv.setAttribute('style', 'display: flex')
+    } else if(currentDiv.getAttribute('id')=== id && id ==='calculator'){
+        currentDiv.setAttribute('style', 'display: block')
+    }else {
+        currentDiv.setAttribute('style', 'display: none')
+    }
+})
+
     click.play()
     brand_window.innerHTML = ""
-    app_main.innerHTML = ""
     init_window()
-
     let main = document.querySelector("#" + id)
 
     let img = document.createElement("img")
